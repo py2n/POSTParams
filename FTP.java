@@ -21,7 +21,7 @@ public class FTP {
     public boolean client(String userName,String password) throws FTPException, IOException, FTPIllegalReplyException, FTPAbortedException, FTPDataTransferException, FTPListParseException {
 //        p = Runtime.getRuntime().exec("su");
         FTPClient client = new FTPClient();
-        client.connect("136.243.163.16");
+        client.connect("127.0.0.1");
         client.login(userName, password);
         client.setType(FTPClient.TYPE_BINARY);
         client.setPassive(true);
