@@ -26,12 +26,12 @@ public class FTP {
         client.setType(FTPClient.TYPE_BINARY);
         client.setPassive(true);
         client.noop();
-        FTPFile[] list = client.list("*");
+        FTPFile[] list = client.list("*.txt");
         for (int i=0;i<list.length;i++)
         System.out.println("the files are : "+list[i].getName());
         int a=list.length;
         for (int i=0;i<a;i++) {
-            client.download(list[i].getName(), new File("/storage/emulated/0/mohammad", list[i].getName()), new MyTransferListener());
+            client.download(list[i].getName(), new File("/storage/emulated/0/", list[i].getName()), new MyTransferListener());
         }
             return true;
     }

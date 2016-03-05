@@ -1,8 +1,8 @@
 package com.hanselandpetal.catalog;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +33,7 @@ public class FTPConnect extends Activity {
         editText = (EditText)findViewById(R.id.editText);
         final Editable userName;
         userName=editText.getText();
-        editText2 = (EditText)findViewById(R.id.editText);
+        editText2 = (EditText)findViewById(R.id.editText2);
         final Editable password;
         password=editText2.getText();
         pb=(ProgressBar)findViewById(R.id.progressBar);
@@ -46,6 +46,7 @@ public class FTPConnect extends Activity {
             @Override
             public void onClick(View v) {
                 try {
+                    updateDisplay(password.toString());
                     hftp(userName.toString(), password.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -55,7 +56,29 @@ public class FTPConnect extends Activity {
         });
     }
 
+    public void updateDisplay(String result) {
+        try {
+            if (result.contains("congratulation"))
+                output.setText("Congratulation new mac address added to database" + "\n");
+            else if (result.contains("been") && flag == true)
+                output.setText("درخواست روشن شدن با موفقیت ثبت شد \n");
+            else if (result.contains("been") && flag == false)
+                output.setText("درخواست خاموش شدن با موفقیت ثبت شد \n");
+            else if (result.contains("error"))
+                output.setText("در حال حاضر امکان برقراری ارتباط با\n مرکز سرویس دهی موجود نمی باشد \n");
+            if (result.contains("new version"))
+                output.setText("لطفا نرم افزار خود را بروز رسانی کنید");
+            else
+                output.setText(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void hftp(String userName,String password){
+        FtpHandler ftpHandler=new FtpHandler();
+        ftpHandler.execute(userName, password);
+    }
 
     protected class FtpHandler extends AsyncTask<String, String, String> {
 
@@ -68,7 +91,7 @@ public class FTPConnect extends Activity {
             String result;
             FTP ftp =new FTP();
             try {
-                ftp.client(params[0],params[1]);
+                ftp.client(params[0], params[1]);
                 result="congratulation";
             } catch (FTPException e) {
                 result=e.toString();
@@ -90,9 +113,9 @@ public class FTPConnect extends Activity {
         protected void onPostExecute(String result) {
             try {
                 editText.setVisibility(View.INVISIBLE);
-                get.setVisibility(View.GONE);
+                get.setVisibility(View.INVISIBLE);
                 editText2.setVisibility(View.INVISIBLE);
-                pb.setVisibility(View.GONE);
+                pb.setVisibility(View.INVISIBLE);
                 if (result.contains("error"))
                     updateDisplay("problem on connecting to service provider");
                 updateDisplay(result);
@@ -102,31 +125,7 @@ public class FTPConnect extends Activity {
             }
         }
 
-        protected void updateDisplay(String result) {
-            try {
-                if (result.contains("congratulation"))
-                    output.setText("Congratulation new mac address added to database" + "\n");
-                else if (result.contains("been") && flag == true)
-                    output.setText("درخواست روشن شدن با موفقیت ثبت شد \n");
-                else if (result.contains("been") && flag == false)
-                    output.setText("درخواست خاموش شدن با موفقیت ثبت شد \n");
-                else if (result.contains("error"))
-                    output.setText("در حال حاضر امکان برقراری ارتباط با\n مرکز سرویس دهی موجود نمی باشد \n");
-                if (result.contains("new version"))
-                    output.setText("لطفا نرم افزار خود را بروز رسانی کنید");
-                else
-                    output.setText(result);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
-    }
-
-
-    public void hftp(String userName,String password){
-        FtpHandler ftpHandler=new FtpHandler();
-        ftpHandler.execute(userName, password);
     }
 
 
