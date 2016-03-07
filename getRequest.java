@@ -163,6 +163,10 @@ public class getRequest extends FragmentActivity
         });
     }
 
+    public void pr(){
+        System.out.println("");
+    }
+
 
 
     protected class MyTask extends AsyncTask<RequestPackage, String, String> {
