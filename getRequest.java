@@ -5,39 +5,35 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
 import com.codetroopers.betterpickers.timepicker.TimePickerDialogFragment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
-import it.sauronsoftware.ftp4j.FTPAbortedException;
-import it.sauronsoftware.ftp4j.FTPDataTransferException;
-import it.sauronsoftware.ftp4j.FTPException;
-import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
-import it.sauronsoftware.ftp4j.FTPListParseException;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+
 
 
 public class getRequest extends FragmentActivity
         implements TimePickerDialogFragment.TimePickerDialogHandler, RadialTimePickerDialogFragment.OnTimeSetListener {
+    private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
+    public String t1;
     boolean flag = true;
     TextView output;
-    ProgressBar pb;
+    SmoothProgressBar pb;
     List<MyTask> tasks;
-    public String t1;
-    private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_request);
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
+        pb = (SmoothProgressBar) findViewById(R.id.progressBar1);
+//        pb.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new AccelerateInterpolator()).build());
+
         tasks = new ArrayList<>();
         Bundle data=getIntent().getExtras();
         String request;
@@ -119,7 +115,7 @@ public class getRequest extends FragmentActivity
         getTime2();
         flag = true;
         output = (TextView) findViewById(R.id.textView);
-        pb = (ProgressBar) findViewById(R.id.progressBar1);
+//        pb = (ProgressBar) findViewById(R.id.progressBar1);
 
 
         Button bOn = (Button) findViewById(R.id.button4);
@@ -185,6 +181,7 @@ public class getRequest extends FragmentActivity
 
         @Override
         protected void onPostExecute(String result) {
+
             try {
                 tasks.remove(this);
                 if (tasks.size() == 0) {

@@ -7,11 +7,11 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import it.sauronsoftware.ftp4j.FTPAbortedException;
 import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPException;
@@ -19,7 +19,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 import it.sauronsoftware.ftp4j.FTPListParseException;
 
 public class FTPConnect extends Activity {
-    ProgressBar pb;
+    SmoothProgressBar pb;
     TextView output;
     boolean flag;
     EditText editText2;
@@ -36,7 +36,7 @@ public class FTPConnect extends Activity {
         editText2 = (EditText)findViewById(R.id.editText2);
         final Editable password;
         password=editText2.getText();
-        pb=(ProgressBar)findViewById(R.id.progressBar);
+        pb= (SmoothProgressBar) findViewById(R.id.progressBar2);
         pb.setVisibility(View.INVISIBLE);
         editText.setVisibility(View.VISIBLE);
         editText2.setVisibility(View.VISIBLE);
