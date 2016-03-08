@@ -70,6 +70,8 @@ public class MainActivity extends FragmentActivity {
 					startActivity(intent);
 				} else {
 					toast("اشکال در ارتباط با اینترنت");
+					Intent intent = new Intent(MainActivity.this,FTPConnect.class);
+					startActivity(intent);
 				}
 			}
 		});

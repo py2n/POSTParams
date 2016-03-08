@@ -8,7 +8,6 @@ import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 import it.sauronsoftware.ftp4j.FTPException;
-import it.sauronsoftware.ftp4j.FTPFile;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 import it.sauronsoftware.ftp4j.FTPListParseException;
 
@@ -17,22 +16,22 @@ import it.sauronsoftware.ftp4j.FTPListParseException;
  */
 
 public class FTP {
-//Process p;
-    public boolean client(String userName,String password) throws FTPException, IOException, FTPIllegalReplyException, FTPAbortedException, FTPDataTransferException, FTPListParseException {
-//        p = Runtime.getRuntime().exec("su");
+    public boolean client(String userName, String password, String address) throws FTPException, IOException, FTPIllegalReplyException
+            , FTPAbortedException, FTPDataTransferException, FTPListParseException {
         FTPClient client = new FTPClient();
-        client.connect("127.0.0.1");
+        client.connect("192.168.43.53");
+        System.out.println("the user name is: " + userName + " password is " + password);
         client.login(userName, password);
-        client.setType(FTPClient.TYPE_BINARY);
-        client.setPassive(true);
-        client.noop();
-        FTPFile[] list = client.list("*.txt");
-        for (int i=0;i<list.length;i++)
-        System.out.println("the files are : "+list[i].getName());
-        int a=list.length;
-        for (int i=0;i<a;i++) {
-            client.download(list[i].getName(), new File("/storage/emulated/0/", list[i].getName()), new MyTransferListener());
-        }
+        client.setType(FTPClient.TYPE_AUTO);
+//        client.setPassive(true);
+//        client.noop();
+        int i=address.lastIndexOf('/');
+        String FileName;
+//        String
+        FileName=address.substring(i + 1);
+        address=address.substring(22);
+
+            client.download(address, new File("/storage/emulated/0/", FileName), new MyTransferListener());
             return true;
     }
 }

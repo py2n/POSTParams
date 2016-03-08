@@ -11,27 +11,18 @@ import android.widget.TextView;
 import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
 import com.codetroopers.betterpickers.timepicker.TimePickerDialogFragment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
-import it.sauronsoftware.ftp4j.FTPAbortedException;
-import it.sauronsoftware.ftp4j.FTPDataTransferException;
-import it.sauronsoftware.ftp4j.FTPException;
-import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
-import it.sauronsoftware.ftp4j.FTPListParseException;
 
 
 public class getRequest extends FragmentActivity
         implements TimePickerDialogFragment.TimePickerDialogHandler, RadialTimePickerDialogFragment.OnTimeSetListener {
+    private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
+    public String t1;
     boolean flag = true;
     TextView output;
     ProgressBar pb;
     List<MyTask> tasks;
-    public String t1;
-    private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,7 +125,7 @@ public class getRequest extends FragmentActivity
                 pb.setVisibility(View.INVISIBLE);
                 RequestPackage p = new RequestPackage();
                 p.setMethod("POST");
-                p.setUri("http://192.168.56.1:8000/poem");
+                p.setUri("http://192.168.43.53:8000/poem");
                 p.setParam("noun1", "00:00:00:00:00:45");
                 p.setParam("noun2", req);
                 p.setParam("noun3", "on");
