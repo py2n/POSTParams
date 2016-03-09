@@ -46,8 +46,10 @@ public class getRequest extends FragmentActivity
                 output.setText("درخواست روشن شدن با موفقیت ثبت شد \n");
             else if (result.contains("been") && flag == false)
                 output.setText("درخواست خاموش شدن با موفقیت ثبت شد \n");
-            else if (result.contains("error"))
+            else if (result.contains("error")) {
                 output.setText("در حال حاضر امکان برقراری ارتباط با\n مرکز سرویس دهی موجود نمی باشد \n");
+//                output.setText(result);
+            }
             if (result.contains("new version"))
                 output.setText("لطفا نرم افزار خود را بروز رسانی کنید");
         } catch (Exception e) {
@@ -117,15 +119,10 @@ public class getRequest extends FragmentActivity
         bOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                TimePickerBuilder tpb = new TimePickerBuilder()
-//                        .setFragmentManager(getSupportFragmentManager())
-//                        .setStyleResId(R.style.MyCustomBetterPickerTheme);
-//                tpb.show();
-//                tpb.setReference(1);
                 pb.setVisibility(View.INVISIBLE);
                 RequestPackage p = new RequestPackage();
                 p.setMethod("POST");
-                p.setUri("http://192.168.43.53:8000/poem");
+                p.setUri("http://136.243.163.16:8000/poem");
                 p.setParam("noun1", "00:00:00:00:00:45");
                 p.setParam("noun2", req);
                 p.setParam("noun3", "on");

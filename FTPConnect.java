@@ -51,9 +51,11 @@ public class FTPConnect extends Activity {
             @Override
             public void onClick(View v) {
                 try {
-                    getAddresses();
+                    getAddresses(userName.toString());
                     for(int i=0;i<result.length;i++)
-                        hftp(userName.toString(), password.toString(),result[i]);
+                        hftp(userName.toString(), password.toString(),result[1]);
+//                        hftp("cam1", "09039678149",result[i]);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -62,11 +64,11 @@ public class FTPConnect extends Activity {
         });
     }
 
-    public void getAddresses(){
+    public void getAddresses(String username) {
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
-        p.setUri("http://192.168.43.53:8000/rcp");
-        p.setParam("username", "mohammad");
+        p.setUri("http://136.243.163.16:8000/rcp");
+        p.setParam("username", username);
         MyTask task=new MyTask();
         task.execute(p);
     }
@@ -74,7 +76,8 @@ public class FTPConnect extends Activity {
     public void updateDisplay(String result) {
         try {
             if (result.contains("congratulation"))
-                output.setText("Congratulation new mac address added to database" + "\n");
+                output.setText("کلیه تصاویر دریافت شدند");
+//                output.setText("Congratulation new mac address added to database" + "\n");
             else if (result.contains("been") && flag == true)
                 output.setText("درخواست روشن شدن با موفقیت ثبت شد \n");
             else if (result.contains("been") && flag == false)
@@ -83,8 +86,8 @@ public class FTPConnect extends Activity {
                 output.setText("در حال حاضر امکان برقراری ارتباط با\n مرکز سرویس دهی موجود نمی باشد \n");
             if (result.contains("new version"))
                 output.setText("لطفا نرم افزار خود را بروز رسانی کنید");
-            else
-                output.append(result);
+//            else
+//                output.append(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,11 +102,14 @@ public class FTPConnect extends Activity {
 
         @Override
         protected void onPreExecute() {
+//            if (tasks.size() == 0) {
             pb.setVisibility(View.VISIBLE);
+//            }
+//            tasks.add(this);
         }
 
         protected String doInBackground(String... params) {
-            String result = null;
+            String result = "";
             FTP ftp =new FTP();
             try {
                 ftp.client(params[0], params[1],params[2]);
@@ -129,10 +135,11 @@ public class FTPConnect extends Activity {
         @Override
         protected void onPostExecute(String result) {
             try {
+                pb.setVisibility(View.INVISIBLE);
                 editText.setVisibility(View.INVISIBLE);
                 get.setVisibility(View.INVISIBLE);
                 editText2.setVisibility(View.INVISIBLE);
-                pb.setVisibility(View.INVISIBLE);
+                updateDisplay(result);
                 if (result.contains("error"))
                     updateDisplay("problem on connecting to service provider");
                 updateDisplay(result);
@@ -141,11 +148,7 @@ public class FTPConnect extends Activity {
                 updateDisplay("problem on sending the request");
             }
         }
-
-
     }
-
-
     protected class MyTask extends AsyncTask<RequestPackage, String, String> {
         @Override
         protected void onPreExecute() {
@@ -165,22 +168,23 @@ public class FTPConnect extends Activity {
             content=content.replace("&#39;","");
             content=content.replace("'","");
             result=content.split(",");
-            return result[0];
+            return true+"";
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String result1) {
 
             try {
+//                updateDisplay(result[0]);
 //                tasks.remove(this);
 //                if (tasks.size() == 0) {
-////                    pb.setVisibility(View.INVISIBLE);
+                    pb.setVisibility(View.INVISIBLE);
 //                }
 //                for (int i=0;i<result.length();i++)
 //                    updateDisplay(result+"");
-                if (result.contains("error"))
+                if (result1.contains("error"))
                     updateDisplay("problem on connecting to service provider");
-//                updateDisplay(result);
+                updateDisplay(result1);
             } catch (Exception e) {
                 System.out.println("error occured in " + e.toString());
                 updateDisplay("problem on sending the request");

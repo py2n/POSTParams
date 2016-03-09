@@ -21,15 +21,15 @@ public class HttpManager {
 			URL url = new URL(uri);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod(p.getMethod());
-//			con.setRequestMethod("POST");
-			if (p.getMethod().equals("POST")){
+			con.setRequestMethod("POST");
+//			if (p.getMethod().equals("POST")){
 				con.setDoOutput(true);
 				con.setDoInput(true);
-				con.setConnectTimeout(4000);
+				con.setConnectTimeout(10000);
 				OutputStreamWriter writer=new OutputStreamWriter(con.getOutputStream());
 				writer.write(p.getEncodedParams());
 				writer.flush();
-			}
+//			}
 			StringBuilder sb = new StringBuilder();
 			reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			

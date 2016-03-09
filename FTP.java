@@ -19,7 +19,7 @@ public class FTP {
     public boolean client(String userName, String password, String address) throws FTPException, IOException, FTPIllegalReplyException
             , FTPAbortedException, FTPDataTransferException, FTPListParseException {
         FTPClient client = new FTPClient();
-        client.connect("192.168.43.53");
+        client.connect("136.243.163.16");
         System.out.println("the user name is: " + userName + " password is " + password);
         client.login(userName, password);
         client.setType(FTPClient.TYPE_AUTO);
@@ -27,10 +27,10 @@ public class FTP {
 //        client.noop();
         int i=address.lastIndexOf('/');
         String FileName;
-//        String
+        String addr0=address;
+        System.out.println("address is "+addr0);
         FileName=address.substring(i + 1);
         address=address.substring(22);
-
             client.download(address, new File("/storage/emulated/0/", FileName), new MyTransferListener());
             return true;
     }

@@ -29,6 +29,10 @@ public class MainActivity extends FragmentActivity {
 					intent.putExtra("request", "6545412");
 					startActivity(intent);
 				} else {
+					Intent intent=new Intent(MainActivity.this,getRequest.class);
+					intent.putExtra("request", "6545412");
+					startActivity(intent);
+
 					toast("اشکال در ارتباط با اینترنت");
 				}
 			}
