@@ -16,6 +16,7 @@ import java.util.List;
 
 import it.sauronsoftware.ftp4j.FTPAbortedException;
 import it.sauronsoftware.ftp4j.FTPDataTransferException;
+import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 import it.sauronsoftware.ftp4j.FTPListParseException;
@@ -53,7 +54,7 @@ public class FTPConnect extends Activity {
                 try {
                     getAddresses(userName.toString());
                     for(int i=0;i<result.length;i++)
-                        hftp(userName.toString(), password.toString(),result[1]);
+                        hftp(userName.toString(), password.toString(),result[i]);
 //                        hftp("cam1", "09039678149",result[i]);
 
                 } catch (Exception e) {
@@ -98,7 +99,7 @@ public class FTPConnect extends Activity {
         ftpHandler.execute(userName, password,address);
     }
 
-    protected class FtpHandler extends AsyncTask<String, String, String> {
+    protected class FtpHandler extends AsyncTask<String, String, String> implements FTPDataTransferListener {
 
         @Override
         protected void onPreExecute() {
@@ -113,7 +114,7 @@ public class FTPConnect extends Activity {
             FTP ftp =new FTP();
             try {
                 ftp.client(params[0], params[1],params[2]);
-                result="congratulation";
+//                result="congratulation";
             } catch (FTPException e) {
                 result=e.toString();
             } catch (IOException e) {
@@ -129,31 +130,63 @@ public class FTPConnect extends Activity {
             }catch (Exception e){
                 e.printStackTrace();
             }
+//            started();
             return result;
         }
 
         @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            pb.setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected void onPostExecute(String result) {
+            updateDisplay("congratulation");
             try {
-                pb.setVisibility(View.INVISIBLE);
                 editText.setVisibility(View.INVISIBLE);
                 get.setVisibility(View.INVISIBLE);
                 editText2.setVisibility(View.INVISIBLE);
-                updateDisplay(result);
+                pb.setVisibility(View.INVISIBLE);
                 if (result.contains("error"))
                     updateDisplay("problem on connecting to service provider");
-                updateDisplay(result);
+//                updateDisplay(result);
             } catch (Exception e) {
                 System.out.println("error occured in " + e.toString());
                 updateDisplay("problem on sending the request");
             }
+        }
+
+        @Override
+        public void started() {
+            updateDisplay("در حال دریافت تصاویر");
+            pb.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void transferred(int i) {
+        }
+
+        @Override
+        public void completed() {
+            updateDisplay("کلیه تصاویر دریافت شدند");
+        }
+
+        @Override
+        public void aborted() {
+
+        }
+
+        @Override
+        public void failed() {
+            updateDisplay("دریافت تصاویر با مشکل مواجه شد");
         }
     }
     protected class MyTask extends AsyncTask<RequestPackage, String, String> {
         @Override
         protected void onPreExecute() {
 //            if (tasks.size() == 0) {
-//                pb.setVisibility(View.VISIBLE);
+                pb.setVisibility(View.VISIBLE);
 //            }
 //            tasks.add(this);
         }

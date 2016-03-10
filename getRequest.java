@@ -1,5 +1,6 @@
 package com.hanselandpetal.catalog;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -23,6 +24,7 @@ public class getRequest extends FragmentActivity
     TextView output;
     ProgressBar pb;
     List<MyTask> tasks;
+    Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,7 @@ public class getRequest extends FragmentActivity
     public void onResume() {
         // Example of reattaching to the fragment
         super.onResume();
+//        PushLink.setCurrentActivity(this);
         RadialTimePickerDialogFragment rtpd = (RadialTimePickerDialogFragment) getSupportFragmentManager().findFragmentByTag(FRAG_TAG_TIME_PICKER);
         if (rtpd != null) {
             rtpd.setOnTimeSetListener(this);
@@ -127,7 +130,7 @@ public class getRequest extends FragmentActivity
                 p.setParam("noun2", req);
                 p.setParam("noun3", "on");
                 p.setParam("noun4", t1);
-                p.setParam("noun5", "2.0.0");
+                p.setParam("noun5", "1.0.0");
                 p.setParam("noun6", "00:00:00:54:56:45");
                 flag = true;
                 MyTask task = new MyTask();
@@ -187,7 +190,6 @@ public class getRequest extends FragmentActivity
             }
         }
     }
-
 
 }
 

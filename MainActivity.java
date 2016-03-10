@@ -12,10 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.pushlink.android.PushLink;
+
 public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		PushLink.start(this, R.mipmap.ic_launcher_off, "e18ts0p51hih6paa", "jkhgfyf48664");
 		setContentView(R.layout.activity_main1);
 //		Initialize the TextView for vertical scrolling
 		Button r1 = (Button) findViewById(R.id.button);
