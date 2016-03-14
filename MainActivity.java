@@ -127,7 +127,7 @@ public class MainActivity extends FragmentActivity implements TimeChangedListene
 				.setBackgroundColorValue(Color.parseColor("#0099cc"))
 				.setGravity(Gravity.CENTER_HORIZONTAL)
 				.setConfiguration(croutonConfiguration)
-				.setHeight(120)
+				.setHeight(110)
 				.setTextColorValue(Color.parseColor("#323a2c")).setImageResource(R.mipmap.ic_launcher).build();
 
 
@@ -136,7 +136,7 @@ public class MainActivity extends FragmentActivity implements TimeChangedListene
 				.setBackgroundColorValue(Color.parseColor("#cc0000"))
 				.setGravity(Gravity.CENTER_HORIZONTAL)
 				.setConfiguration(croutonConfiguration)
-				.setHeight(120)
+				.setHeight(110)
 				.setTextColorValue(Color.parseColor("#323a2c")).setImageResource(R.mipmap.ic_launcher).build();
 
 
@@ -144,7 +144,7 @@ public class MainActivity extends FragmentActivity implements TimeChangedListene
 				.setBackgroundColorValue(Color.parseColor("#FF00FF0D"))
 				.setGravity(Gravity.CENTER_HORIZONTAL)
 				.setConfiguration(croutonConfiguration)
-				.setHeight(120)
+				.setHeight(110)
 				.setTextColorValue(Color.parseColor("#323a2c")).setImageResource(R.mipmap.ic_launcher).build();
 
 
