@@ -25,7 +25,8 @@ public class HttpManager {
 //			if (p.getMethod().equals("POST")){
 				con.setDoOutput(true);
 				con.setDoInput(true);
-				con.setConnectTimeout(10000);
+				con.setConnectTimeout(4000);
+
 				OutputStreamWriter writer=new OutputStreamWriter(con.getOutputStream());
 				writer.write(p.getEncodedParams());
 				writer.flush();
@@ -41,15 +42,19 @@ public class HttpManager {
 			return sb.toString();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
+//			e.printStackTrace();
+//			Crouton.makeText(".activity_get_request","salam", Style.ALERT);
+			return "error in "+e.toString();
 		} finally {
 			if (reader != null) {
 				try {
 					reader.close();
 				} catch (IOException e) {
 					e.printStackTrace();
-					return "error";
+					return "error in "+e.toString();
+				}
+				catch (Exception e){
+					return "error"+e.toString();
 				}
 			}
 		}

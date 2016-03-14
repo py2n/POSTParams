@@ -2,41 +2,50 @@ package com.hanselandpetal.catalog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.pushlink.android.PushLink;
+import com.gitonway.lee.niftynotification.lib.Effects;
 
-public class MainActivity extends FragmentActivity {
+import java.util.Date;
+
+import de.keyboardsurfer.android.widget.crouton.Configuration;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+import picker.ugurtekbas.com.Picker.TimeChangedListener;
+
+public class MainActivity extends FragmentActivity implements TimeChangedListener {
+	boolean doubleBackToExitPressedOnce = false;
+	private Effects effect;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		PushLink.start(this, R.mipmap.ic_launcher_off, "e18ts0p51hih6paa", "jkhgfyf48664");
+//		PushLink.start(this, R.mipmap.ic_launcher_off, "e18ts0p51hih6paa", "jkhgfyf48664");
 		setContentView(R.layout.activity_main1);
-//		Initialize the TextView for vertical scrolling
+		crouton("خوش آمدید");
 		Button r1 = (Button) findViewById(R.id.button);
-		final getRequest gr=new getRequest();
 		r1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				setContentView(R.layout.activity_main);
 				if (isOnline()) {
 					Intent intent=new Intent(MainActivity.this,getRequest.class);
 					intent.putExtra("request", "6545412");
 					startActivity(intent);
 				} else {
-					Intent intent=new Intent(MainActivity.this,getRequest.class);
-					intent.putExtra("request", "6545412");
-					startActivity(intent);
+//					toast("اشکال در ارتباط با اینترنت");
+					crouton("خطا در ارتباط با اینترنت");
 
-					toast("اشکال در ارتباط با اینترنت");
 				}
 			}
 		});
@@ -50,7 +59,8 @@ public class MainActivity extends FragmentActivity {
 					intent.putExtra("request", "4234412");
 					startActivity(intent);
 				} else {
-					toast("اشکال در ارتباط با اینترنت");
+//					toast("اشکال در ارتباط با اینترنت");
+					crouton("خطا در ارتباط با اینترنت");
 				}
 			}
 		});
@@ -63,7 +73,8 @@ public class MainActivity extends FragmentActivity {
 					intent.putExtra("request", "981236");
 					startActivity(intent);
 				} else {
-					toast("اشکال در ارتباط با اینترنت");
+//					toast("اشکال در ارتباط با اینترنت");
+					crouton("خطا در ارتباط با اینترنت");
 				}
 			}
 		});
@@ -73,22 +84,82 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				if (isOnline()) {
-					Intent intent = new Intent(MainActivity.this,FTPConnect.class);
+					Intent intent = new Intent(MainActivity.this, FTPConnect.class);
 					startActivity(intent);
 				} else {
-					toast("اشکال در ارتباط با اینترنت");
-					Intent intent = new Intent(MainActivity.this,FTPConnect.class);
-					startActivity(intent);
+//					toast("اشکال در ارتباط با اینترنت");
+					crouton("خطا در ارتباط با اینترنت");
 				}
 			}
 		});
+
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (doubleBackToExitPressedOnce) {
+			super.onBackPressed();
+			return;
+		}
+
+		this.doubleBackToExitPressedOnce = true;
+		Toast.makeText(this, "با کلیک مجدد خارج شوید", Toast.LENGTH_SHORT).show();
+
+		new Handler().postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				doubleBackToExitPressedOnce = false;
+			}
+		}, 2000);
+	}
 
 
 	public void toast(String a){
 		Toast.makeText(this, a, Toast.LENGTH_LONG).show();
 	}
+
+	public void crouton(String a){
+
+		Configuration croutonConfiguration = new Configuration.Builder()
+				.setDuration(2500).build();
+		Style InfoStyle = new Style.Builder()
+				.setBackgroundColorValue(Color.parseColor("#0099cc"))
+				.setGravity(Gravity.CENTER_HORIZONTAL)
+				.setConfiguration(croutonConfiguration)
+				.setHeight(120)
+				.setTextColorValue(Color.parseColor("#323a2c")).setImageResource(R.mipmap.ic_launcher).build();
+
+
+
+		Style AlertStyle = new Style.Builder()
+				.setBackgroundColorValue(Color.parseColor("#cc0000"))
+				.setGravity(Gravity.CENTER_HORIZONTAL)
+				.setConfiguration(croutonConfiguration)
+				.setHeight(120)
+				.setTextColorValue(Color.parseColor("#323a2c")).setImageResource(R.mipmap.ic_launcher).build();
+
+
+		Style ConfirmStyle = new Style.Builder()
+				.setBackgroundColorValue(Color.parseColor("#FF00FF0D"))
+				.setGravity(Gravity.CENTER_HORIZONTAL)
+				.setConfiguration(croutonConfiguration)
+				.setHeight(120)
+				.setTextColorValue(Color.parseColor("#323a2c")).setImageResource(R.mipmap.ic_launcher).build();
+
+
+		Crouton.clearCroutonsForActivity(this);
+		if (a.contains("error"))
+			Crouton.makeText(this,a, AlertStyle).show();
+		else if (a.contains("been"))
+			Crouton.makeText(this,a,ConfirmStyle).show();
+		else if (a.contains("خطا"))
+			Crouton.makeText(this,a,AlertStyle).show();
+		else
+			Crouton.makeText(this,a,InfoStyle).show();
+
+	}
+
 
 	protected boolean isOnline() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -115,5 +186,10 @@ public class MainActivity extends FragmentActivity {
 
 		}
 		return false;
+	}
+
+	@Override
+	public void timeChanged(Date date) {
+
 	}
 }

@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.List;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import it.sauronsoftware.ftp4j.FTPAbortedException;
 import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
@@ -30,6 +32,9 @@ public class FTPConnect extends Activity {
     Button get;
     List<MyTask> tasks;
     String [] result;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,21 +79,36 @@ public class FTPConnect extends Activity {
         task.execute(p);
     }
 
+    public void crouton(String a){
+        Crouton.clearCroutonsForActivity(this);
+        if (a.contains("error"))
+            Crouton.makeText(this,a, Style.ALERT).show();
+        else if (a.contains("been"))
+            Crouton.makeText(this,a,Style.CONFIRM).show();
+        else if (a.contains("خطا"))
+            Crouton.makeText(this,a,Style.ALERT).show();
+        else
+            Crouton.makeText(this,a,Style.INFO).show();
+
+    }
+
     public void updateDisplay(String result) {
         try {
             if (result.contains("congratulation"))
                 output.setText("کلیه تصاویر دریافت شدند");
 //                output.setText("Congratulation new mac address added to database" + "\n");
-            else if (result.contains("been") && flag == true)
-                output.setText("درخواست روشن شدن با موفقیت ثبت شد \n");
-            else if (result.contains("been") && flag == false)
-                output.setText("درخواست خاموش شدن با موفقیت ثبت شد \n");
-            else if (result.contains("error"))
-                output.setText("در حال حاضر امکان برقراری ارتباط با\n مرکز سرویس دهی موجود نمی باشد \n");
-            if (result.contains("new version"))
-                output.setText("لطفا نرم افزار خود را بروز رسانی کنید");
+//            else if (result.contains("been") && flag == true)
+//                output.setText("درخواست روشن شدن با موفقیت ثبت شد \n");
+//            else if (result.contains("been") && flag == false)
+//                output.setText("درخواست خاموش شدن با موفقیت ثبت شد \n");
+//            else if (result.contains("error"))
+//                output.setText("در حال حاضر امکان برقراری ارتباط با\n مرکز سرویس دهی موجود نمی باشد \n");
+//            if (result.contains("new version"))
+//                output.setText("لطفا نرم افزار خود را بروز رسانی کنید");
 //            else
 //                output.append(result);
+            else
+                output.setText(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,15 +212,19 @@ public class FTPConnect extends Activity {
         }
         @Override
         protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            int begining=content.indexOf("body")+5;
-            int end=content.lastIndexOf("body")-2;
-            content=content.substring(begining, end);
-            content=content.replace("[", "");
-            content=content.replace("]","");
-            content=content.replace("&#39;","");
-            content=content.replace("'","");
-            result=content.split(",");
+            try {
+                String content = HttpManager.getData(params[0]);
+                int begining=content.indexOf("body")+5;
+                int end=content.lastIndexOf("body")-2;
+                content=content.substring(begining, end);
+                content=content.replace("[", "");
+                content=content.replace("]","");
+                content=content.replace("&#39;","");
+                content=content.replace("'","");
+                result=content.split(",");
+            } catch (Exception e) {
+                return "error";
+            }
             return true+"";
         }
 
@@ -216,8 +240,11 @@ public class FTPConnect extends Activity {
 //                for (int i=0;i<result.length();i++)
 //                    updateDisplay(result+"");
                 if (result1.contains("error"))
-                    updateDisplay("problem on connecting to service provider");
-                updateDisplay(result1);
+//                    updateDisplay("problem on connecting to service provider");
+                crouton("خطا در اتصال به سرویس دهنده");
+                else if (result1.contains("true"))
+                    updateDisplay("تصاویر دریافت شدند");
+//                updateDisplay(result1);
             } catch (Exception e) {
                 System.out.println("error occured in " + e.toString());
                 updateDisplay("problem on sending the request");
