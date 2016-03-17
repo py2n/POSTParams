@@ -33,6 +33,9 @@ public class MainActivity extends FragmentActivity implements TimeChangedListene
 		super.onCreate(savedInstanceState);
 //		PushLink.start(this, R.mipmap.ic_launcher_off, "e18ts0p51hih6paa", "jkhgfyf48664");
 		setContentView(R.layout.activity_main1);
+//		JazzyListView list = (JazzyListView) findViewById(R.id.list);
+//		list.setTransitionEffect(new SlideInEffect());
+		String [] a=new String[]{"1","2","3"};
 		crouton("خوش آمدید");
 		Button r1 = (Button) findViewById(R.id.button);
 		r1.setOnClickListener(new View.OnClickListener() {

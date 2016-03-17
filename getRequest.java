@@ -99,8 +99,6 @@ public class getRequest extends FragmentActivity
         else if (a.contains("error"))
             Crouton.makeText(this,"در حال حاضر امکان برقراری ارتباط با\n مرکز سرویس دهی موجود نمی باشد \n",AlertStyle).show();
 
-
-
 //            Crouton.clearCroutonsForActivity(this);
 //        if (a.contains("error"))
 //            Crouton.makeText(this,a, AlertStyle).show();
